@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "TB_SALE")
-public class Sale {
+public class Sale implements Persistent {
 
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="sale_seq")
