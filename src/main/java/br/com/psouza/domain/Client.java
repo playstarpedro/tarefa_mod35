@@ -8,8 +8,8 @@ import java.util.Objects;
 public class Client implements Persistent {
 
     @Id
+    @SequenceGenerator(name = "client_seq", sequenceName = "sq_client", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_seq")
-    @SequenceGenerator(name = "client_se", sequenceName = "sq_client", initialValue = 1, allocationSize = 1)
     private Long id;
 
     @Column(name = "NAME", nullable = false, length = 50)
@@ -54,11 +54,11 @@ public class Client implements Persistent {
         this.name = name;
     }
 
-    public String getCPF() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCPF(String cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 

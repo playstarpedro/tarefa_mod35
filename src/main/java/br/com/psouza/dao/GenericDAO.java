@@ -10,16 +10,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 public abstract class GenericDAO <T extends Persistent, ID extends Serializable> implements IGenericDAO<T, ID>{
-    private static final String PERSISTENCE_UNIT_NAME = "Postgre1";
 
     protected EntityManagerFactory entityManagerFactory;
 
     protected EntityManager entityManager;
 
-    private String persistenceUnitName;
+    private static final String persistenceUnitName  = "postgres";
 
-    private Class<T> persistenteClass;
+    private Class<T> persistentClass;
 
+    public GenericDAO(Class<T> persistentClass) {
+        this.persistentClass = persistentClass;
+    }
 
     @Override
     public T register(T entity) {
@@ -51,7 +53,7 @@ public abstract class GenericDAO <T extends Persistent, ID extends Serializable>
     @Override
     public T consult(ID id) {
         openConnection();
-        T entity = entityManager.find(this.persistenteClass, id);
+        T entity = entityManager.find(this.persistentClass, id);
         entityManager.getTransaction().commit();
         closeConnection();
         return entity;
@@ -61,7 +63,7 @@ public abstract class GenericDAO <T extends Persistent, ID extends Serializable>
     public Collection searchAll() {
         openConnection();
         List<T> list =
-                entityManager.createQuery(getSelectSql(), this.persistenteClass).getResultList();
+                entityManager.createQuery(getSelectSql(), this.persistentClass).getResultList();
         closeConnection();
         return list;
     }
@@ -83,14 +85,14 @@ public abstract class GenericDAO <T extends Persistent, ID extends Serializable>
                 && !"".equals(persistenceUnitName)) {
             return persistenceUnitName;
         } else {
-            return PERSISTENCE_UNIT_NAME;
+            return persistenceUnitName;
         }
     }
 
     private String getSelectSql() {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT obj FROM ");
-        sb.append(this.persistenteClass.getSimpleName());
+        sb.append(this.persistentClass.getSimpleName());
         sb.append(" obj");
         return sb.toString();
     }

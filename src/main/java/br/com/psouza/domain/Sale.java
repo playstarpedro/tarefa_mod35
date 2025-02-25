@@ -27,7 +27,7 @@ public class Sale implements Persistent {
     )
     private Client client;
 
-    @OneToMany(mappedBy = "SALE", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     private Set<ProductAmount> products;
 
     @Column(name = "TOTAL_VALUE", nullable = false)
@@ -40,8 +40,7 @@ public class Sale implements Persistent {
     @Column(name = "SALE_STATUS", nullable = false)
     private Status status;
 
-    public Sale(Status status) {
-        this.status = status;
+    public Sale() {
     }
 
     public Sale(String code, Client client, Set<ProductAmount> products, BigDecimal totalValue, Instant saleDate, Status status) {
