@@ -24,8 +24,8 @@ public class SaleTest {
     private IGenericDAO clientDAO;
 
     public SaleTest() {
-        this.saleDAO = new SaleDAO(Sale.class);
-        this.clientDAO = new ClientDAO(Client.class);
+        this.saleDAO = new SaleDAO(Sale.class, "postgres");
+        this.clientDAO = new ClientDAO(Client.class, "postgres");
     }
 
     @After

@@ -16,7 +16,7 @@ public class ProductTest {
     private IGenericDAO productDAO;
 
     public ProductTest() {
-        this.productDAO = new ProductDAO(Product.class);
+        this.productDAO = new ProductDAO(Product.class, "postgres");
     }
 
     @After

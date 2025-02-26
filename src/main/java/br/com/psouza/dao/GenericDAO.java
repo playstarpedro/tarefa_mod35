@@ -9,18 +9,19 @@ import javax.persistence.Persistence;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-public abstract class GenericDAO <T extends Persistent, ID extends Serializable> implements IGenericDAO<T, ID>{
+public abstract class GenericDAO<T extends Persistent, ID extends Serializable> implements IGenericDAO<T, ID> {
 
     protected EntityManagerFactory entityManagerFactory;
 
     protected EntityManager entityManager;
 
-    private static final String persistenceUnitName  = "postgres";
+    private String persistenceUnitName = "postgres";
 
     private Class<T> persistentClass;
 
-    public GenericDAO(Class<T> persistentClass) {
+    public GenericDAO(Class<T> persistentClass, String persistenceUnitName) {
         this.persistentClass = persistentClass;
+        this.persistenceUnitName = persistenceUnitName;
     }
 
     @Override
