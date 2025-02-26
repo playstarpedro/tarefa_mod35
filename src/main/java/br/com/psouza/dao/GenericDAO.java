@@ -17,7 +17,7 @@ public abstract class GenericDAO<T extends Persistent, ID extends Serializable> 
 
     private String persistenceUnitName = "postgres";
 
-    private Class<T> persistentClass;
+    private final Class<T> persistentClass;
 
     public GenericDAO(Class<T> persistentClass, String persistenceUnitName) {
         this.persistentClass = persistentClass;

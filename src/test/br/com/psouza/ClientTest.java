@@ -1,21 +1,35 @@
 package test.br.com.psouza;
 
-import org.junit.Test;
-import org.junit.After;
-import org.junit.Assert;
+import org.junit.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import main.java.br.com.psouza.dao.ClientDAO;
-import main.java.br.com.psouza.domain.Client;
 import main.java.br.com.psouza.dao.IGenericDAO;
+import main.java.br.com.psouza.domain.Client;
 import main.java.br.com.psouza.domain.Persistent;
 
-import java.util.List;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
+@RunWith(Parameterized.class)
 public class ClientTest {
-    private IGenericDAO clientDAO;
 
-    public ClientTest() {
-        this.clientDAO = new ClientDAO(Client.class, "postgres");
+    private IGenericDAO clientDAO;
+    private String persistenceUnitName;
+
+    @Parameterized.Parameters
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][]{
+                {"postgres"},
+                {"Postgre2"},
+                {"Mysql1"}
+        });
+    }
+
+    public ClientTest(String persistenceUnitName) {
+        this.persistenceUnitName = persistenceUnitName;
+        this.clientDAO = new ClientDAO(Client.class, persistenceUnitName);
     }
 
     @After
@@ -33,8 +47,8 @@ public class ClientTest {
     @Test
     public void shouldRegisterAClient() {
         Client registeredClient = (Client) clientDAO.register(createClient("123123123123"));
-
         Client consultedClient = (Client) clientDAO.consult(registeredClient.getId());
+
         Assert.assertNotNull(consultedClient);
         Assert.assertEquals(consultedClient.getCpf(), registeredClient.getCpf());
     }
